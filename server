@@ -1,0 +1,16 @@
+import socket
+
+serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serv.bind((socket.gethostname(),1234))
+serv.listen(5)
+
+client_socket, address = serv.accept()
+print(f"Connection from {address} has been established")
+while True:
+    data = client_socket.recv(1024).decode()
+    if not data:
+        break
+    print("Client :- ",data)
+    data = input("You :- ")
+    client_socket.send(data.encode())
+client_socket.close()
